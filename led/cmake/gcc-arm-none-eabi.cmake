@@ -5,15 +5,20 @@ set(CMAKE_C_COMPILER_ID GNU)
 set(CMAKE_CXX_COMPILER_ID GNU)
 
 # Some default GCC settings
-# arm-none-eabi- must be part of path environment
-set(TOOLCHAIN_PREFIX                arm-none-eabi-)
+# Use absolute path to the GNU ARM toolchain (Windows requires the .exe suffix)
+set(TOOLCHAIN_PREFIX                "C:/Users/ma170/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-")
+set(TOOLCHAIN_SUFFIX                ".exe")
 
-set(CMAKE_C_COMPILER                ${TOOLCHAIN_PREFIX}gcc)
+if(NOT EXISTS "${TOOLCHAIN_PREFIX}gcc${TOOLCHAIN_SUFFIX}")
+    message(FATAL_ERROR "GNU ARM toolchain not found: ${TOOLCHAIN_PREFIX}gcc${TOOLCHAIN_SUFFIX}")
+endif()
+
+set(CMAKE_C_COMPILER                ${TOOLCHAIN_PREFIX}gcc${TOOLCHAIN_SUFFIX})
 set(CMAKE_ASM_COMPILER              ${CMAKE_C_COMPILER})
-set(CMAKE_CXX_COMPILER              ${TOOLCHAIN_PREFIX}g++)
-set(CMAKE_LINKER                    ${TOOLCHAIN_PREFIX}g++)
-set(CMAKE_OBJCOPY                   ${TOOLCHAIN_PREFIX}objcopy)
-set(CMAKE_SIZE                      ${TOOLCHAIN_PREFIX}size)
+set(CMAKE_CXX_COMPILER              ${TOOLCHAIN_PREFIX}g++${TOOLCHAIN_SUFFIX})
+set(CMAKE_LINKER                    ${TOOLCHAIN_PREFIX}g++${TOOLCHAIN_SUFFIX})
+set(CMAKE_OBJCOPY                   ${TOOLCHAIN_PREFIX}objcopy${TOOLCHAIN_SUFFIX})
+set(CMAKE_SIZE                      ${TOOLCHAIN_PREFIX}size${TOOLCHAIN_SUFFIX})
 
 set(CMAKE_EXECUTABLE_SUFFIX_ASM     ".elf")
 set(CMAKE_EXECUTABLE_SUFFIX_C       ".elf")
