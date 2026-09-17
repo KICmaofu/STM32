@@ -98,7 +98,12 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_4);
-    HAL_Delay(500);
+
+    /* Busy-wait delay, independent of SysTick, for diagnosing HAL_Delay hang */
+    for (volatile uint32_t i = 0; i < 200000; i++)
+    {
+      __NOP();
+    }
   }
   /* USER CODE END 3 */
 }
